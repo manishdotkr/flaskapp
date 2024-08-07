@@ -1,0 +1,1 @@
+# just rename .env.example to .env and run ```docker compose up -d```
