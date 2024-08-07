@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-flaskapp
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./flask
+      dockerfile: Dockerfile
+    container_name: backend-flaskapp
+    depends_on:
+      - mysql
+
+  mysql:
+    build:
+      context: ./database/
+    container_name: mysql-flaskapp
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
